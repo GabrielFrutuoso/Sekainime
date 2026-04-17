@@ -1,9 +1,10 @@
 import "./App.css";
+import { AppRoutes } from "./route/Routes";
 
 function App() {
   return (
     <main>
-      <h1>Sekainime</h1>
+      <AppRoutes />
     </main>
   );
 }
