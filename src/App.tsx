@@ -1,10 +1,13 @@
 import "./App.css";
 import { AppRoutes } from "./route/Routes";
+import { QueryProvider } from "./service/QueryProvider";
 
 function App() {
   return (
     <main>
-      <AppRoutes />
+      <QueryProvider>
+        <AppRoutes />
+      </QueryProvider>
     </main>
   );
 }
