@@ -1,7 +1,6 @@
 import { Episode } from "./episode.type";
 import { Pagination } from "./pagination.type";
 
-
 export type Anime = {
   name: string;
   poster: string;
@@ -17,6 +16,8 @@ export type AnimeInfos = {
 };
 
 export type AnimePromise = {
-  animes: Anime[];
-  pagination: Pagination;
+  data: {
+    animes: Anime[];
+    pagination: Pagination;
+  };
 };
