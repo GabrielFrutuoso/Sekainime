@@ -11,7 +11,7 @@ import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
-    <main className="h-screen overflow-hidden">
+    <main className="h-screen overflow-hidden flex">
       <QueryProvider>
         <BrowserRouter>
           <ResizablePanelGroup className="h-full w-full">
@@ -20,7 +20,7 @@ function App() {
             </ResizablePanel>
             <ResizableHandle />
             <ResizablePanel defaultSize={80}>
-              <div className="h-full overflow-auto">
+              <div className="flex h-full">
                 <AppRoutes />
               </div>
             </ResizablePanel>
