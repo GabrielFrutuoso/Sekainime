@@ -32,7 +32,7 @@ export function Home() {
 
   return (
     <div className="p-2 flex-1 flex flex-col justify-between overflow-hidden">
-      <SearchInput />
+      <SearchInput suggestions={data?.animes ?? []} />
       <AnimeCardList animes={data?.animes} isLoading={isLoading} />
       <div className="p-1 flex bg-sidebar rounded-md">
         <PagePagination totalPages={data?.pagination?.lastPage ?? 1} />
