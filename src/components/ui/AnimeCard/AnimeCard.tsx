@@ -1,8 +1,12 @@
 import { Anime } from "@/types/anime.type";
+import { Link } from "react-router-dom";
 
 export const AnimeCard = (anime: Anime) => {
   return (
-    <div className="relative group flex flex-col w-full bg-card rounded-md overflow-hidden shadow-md">
+    <Link
+      to={`/infos/${anime.name.toLowerCase().replace(/[^a-z0-9\s]/g, " ").trim().replace(/\s+/g, "-")}`}
+      className="relative group flex flex-col w-full bg-card rounded-md overflow-hidden shadow-md"
+    >
       <img
         src={anime.poster}
         alt={anime.name}
@@ -13,6 +17,6 @@ export const AnimeCard = (anime: Anime) => {
           {anime.name}
         </h1>
       </div>
-    </div>
+    </Link>
   );
 };
