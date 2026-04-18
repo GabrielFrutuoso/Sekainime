@@ -1,7 +1,6 @@
-import { AnimeCard } from "@/components/ui/AnimeCard/AnimeCard";
-import { AnimeCardSkeleton } from "@/components/ui/AnimeCard/AnimeCardSkeleton";
 import { AnimeCardList } from "@/components/ui/AnimeCardList/AnimeCardList";
 import { PagePagination } from "@/components/ui/PagePagination/PagePagination";
+import { SearchInput } from "@/components/ui/SearchInput/SearchInput";
 import { useApi } from "@/hooks/useApi";
 import { AnimePromise } from "@/types/anime.type";
 import { useEffect } from "react";
@@ -27,12 +26,13 @@ export function Home() {
 
   const currentCategory = category || "top-animes";
   const { data, isLoading } = useApi<AnimePromise>(
-    [currentCategory, currentPage],
+    [currentCategory, String(currentPage)],
     `/animes/${currentCategory}/${currentPage}`,
   );
 
   return (
     <div className="p-2 flex-1 flex flex-col justify-between overflow-hidden">
+      <SearchInput />
       <AnimeCardList animes={data?.animes} isLoading={isLoading} />
       <div className="p-1 flex bg-sidebar rounded-md">
         <PagePagination totalPages={data?.pagination?.lastPage ?? 1} />
