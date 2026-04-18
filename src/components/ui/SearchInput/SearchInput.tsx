@@ -3,6 +3,7 @@ import { Input } from "../input";
 import { useApi } from "@/hooks/useApi";
 import { useState, useRef, useEffect } from "react";
 import { Skeleton } from "../skeleton";
+import { useNavigate } from "react-router-dom";
 
 interface Anime {
   id: string | number;
@@ -16,6 +17,14 @@ export const SearchInput = () => {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (searchText.trim()) {
+      navigate(`/search/${encodeURIComponent(searchText.trim())}`);
+      setIsOpen(false);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,8 +34,8 @@ export const SearchInput = () => {
   }, [searchText]);
 
   const { data, isLoading } = useApi<{ animes: Anime[] }>(
-    debouncedSearch ? [`/animes/search/${debouncedSearch}`] : [],
-    debouncedSearch ? `/animes/search/${debouncedSearch}` : "",
+    debouncedSearch ? [`/animes/search/${debouncedSearch}/1`] : [],
+    debouncedSearch ? `/animes/search/${debouncedSearch}/1` : "",
   );
 
   const suggestions: Anime[] = data?.animes ?? [];
@@ -55,10 +64,18 @@ export const SearchInput = () => {
               setIsOpen(true);
             }}
             onFocus={() => setIsOpen(true)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
             className="pr-9"
             placeholder="Pesquisar anime..."
           />
-          <button className="absolute right-2 text-muted-foreground">
+          <button
+            onClick={handleSearch}
+            className="absolute right-2 text-muted-foreground"
+          >
             <Search size={20} />
           </button>
         </div>
