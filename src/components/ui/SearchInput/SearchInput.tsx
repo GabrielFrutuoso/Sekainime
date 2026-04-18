@@ -2,6 +2,7 @@ import { Search } from "lucide-react";
 import { Input } from "../input";
 import { useApi } from "@/hooks/useApi";
 import { useState, useRef, useEffect } from "react";
+import { Skeleton } from "../skeleton";
 
 interface Anime {
   id: string | number;
@@ -19,31 +20,29 @@ export const SearchInput = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchText);
-    }, 300);
+    }, 200);
     return () => clearTimeout(timer);
   }, [searchText]);
 
-  const { data } = useApi<{ animes: Anime[] }>(
-    debouncedSearch ? [`/animes/search/${debouncedSearch}`] : null,
-    debouncedSearch ? `/animes/search/${debouncedSearch}` : null
+  const { data, isLoading } = useApi<{ animes: Anime[] }>(
+    debouncedSearch ? [`/animes/search/${debouncedSearch}`] : [],
+    debouncedSearch ? `/animes/search/${debouncedSearch}` : "",
   );
 
   const suggestions: Anime[] = data?.animes ?? [];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const handleSelect = (anime: Anime) => {
-    setSearchText(anime.title);
-    setIsOpen(false);
-  };
 
   return (
     <div className="w-full flex-nowrap flex justify-center mb-1">
@@ -59,22 +58,39 @@ export const SearchInput = () => {
             className="pr-9"
             placeholder="Pesquisar anime..."
           />
-          <button type="submit" className="absolute right-2 text-muted-foreground">
+          <button className="absolute right-2 text-muted-foreground">
             <Search size={20} />
           </button>
         </div>
 
-        {isOpen && suggestions.length > 0 && debouncedSearch && (
-          <ul className="absolute top-full left-0 right-0 z-50 mt-1 max-h-64 overflow-y-auto rounded-md border border-border bg-popover shadow-md">
+        {isOpen && debouncedSearch && (
+          <ul className="absolute top-full left-0 right-0 z-50 mt-1 max-h-64 overflow-y-auto rounded-md border border-border bg-popover shadow-md p-2">
+            {isLoading && (
+              <div className="space-y-2 p-1 px-3 py-2">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 animate-pulse"
+                  >
+                    <Skeleton className="w-8 h-10 bg-muted rounded" />
+                    <Skeleton className="h-4 bg-muted rounded w-3/4" />
+                  </div>
+                ))}
+              </div>
+            )}
+            {suggestions.length === 0 && !isLoading && (
+              <span className="px-3 font-sm text-muted-foreground">
+                Sem resultados para: {debouncedSearch}
+              </span>
+            )}
             {suggestions.map((anime) => (
               <li
                 key={anime.id}
-                onMouseDown={() => handleSelect(anime)}
                 className="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-accent transition-colors"
               >
-                {(anime.image || anime.poster) && (
+                {anime.poster && (
                   <img
-                    src={anime.image || anime.poster}
+                    src={anime.poster}
                     alt={anime.name}
                     className="w-8 h-10 object-cover rounded"
                   />
