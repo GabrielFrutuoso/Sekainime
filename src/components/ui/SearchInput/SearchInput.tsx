@@ -3,7 +3,7 @@ import { Input } from "../input";
 import { useApi } from "@/hooks/useApi";
 import { useState, useRef, useEffect } from "react";
 import { Skeleton } from "../skeleton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Anime {
   id: string | number;
@@ -101,7 +101,7 @@ export const SearchInput = () => {
               </span>
             )}
             {suggestions.map((anime) => (
-              <li
+              <Link to={`/infos/${anime.name.toLowerCase().replace(/[^a-z0-9\s]/g, " ").trim().replace(/\s+/g, "-")}`}
                 key={anime.id}
                 className="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-accent transition-colors"
               >
@@ -113,7 +113,7 @@ export const SearchInput = () => {
                   />
                 )}
                 <span className="text-sm truncate">{anime.name}</span>
-              </li>
+              </Link>
             ))}
           </ul>
         )}
