@@ -3,13 +3,11 @@ import React from "react";
 interface ProgressBarProps {
   progress: number;
   onSeek: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  showControls: boolean;
 }
 
 export const ProgressBar = ({
   progress,
   onSeek,
-  showControls,
 }: ProgressBarProps) => {
   return (
     <div className="relative group/progress mb-4 w-full flex items-center h-4">

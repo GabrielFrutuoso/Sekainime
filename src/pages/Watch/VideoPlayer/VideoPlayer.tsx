@@ -11,9 +11,17 @@ interface VideoPlayerProps {
   src: string;
   fallbackSrc?: string;
   poster?: string;
+  title?: string;
+  episode?: string;
 }
 
-export const VideoPlayer = ({ src, fallbackSrc, poster }: VideoPlayerProps) => {
+export const VideoPlayer = ({
+  src,
+  fallbackSrc,
+  poster,
+  title,
+  episode
+}: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -166,6 +174,8 @@ export const VideoPlayer = ({ src, fallbackSrc, poster }: VideoPlayerProps) => {
         onToggleFullscreen={toggleFullscreen}
         onSkip={skip}
         showControls={showControls}
+        title={title}
+        episode={episode}
       />
     </div>
   );

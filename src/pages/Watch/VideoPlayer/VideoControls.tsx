@@ -16,6 +16,8 @@ interface VideoControlsProps {
   onToggleFullscreen: () => void;
   onSkip: (seconds: number) => void;
   showControls: boolean;
+  title?: string;
+  episode?: string;
 }
 
 export const VideoControls = ({
@@ -32,67 +34,77 @@ export const VideoControls = ({
   onToggleFullscreen,
   onSkip,
   showControls,
+  title,
+  episode,
 }: VideoControlsProps) => {
   return (
-    <div
-      className={`absolute inset-x-0 bottom-0 p-4 pb-6 bg-linear-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0 pointer-events-none"}`}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <ProgressBar
-        progress={progress}
-        onSeek={onSeek}
-        showControls={showControls}
-      />
+    <>
+      <div
+        className={`absolute inset-x-0 top-0 p-6 bg-linear-to-b from-black/80 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+      >
+        {title && (
+          <div className="text-white/90 font-medium text-lg truncate">
+            {title} - episódio {episode}
+          </div>
+        )}
+      </div>
 
-      <div className="flex items-center justify-between text-white">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={onTogglePlay}
-            className="hover:scale-110 transition-transform p-1"
-          >
-            {isPlaying ? (
-              <Pause size={24} fill="currentColor" />
-            ) : (
-              <Play size={24} fill="currentColor" />
-            )}
-          </button>
+      <div
+        className={`absolute inset-x-0 bottom-0 p-4 pb-6 bg-linear-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <ProgressBar progress={progress} onSeek={onSeek} />
+
+        <div className="flex items-center justify-between text-white">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={onTogglePlay}
+              className="hover:scale-110 transition-transform p-1"
+            >
+              {isPlaying ? (
+                <Pause size={24} fill="currentColor" />
+              ) : (
+                <Play size={24} fill="currentColor" />
+              )}
+            </button>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => onSkip(-10)}
+                className="p-1 hover:bg-white/10 rounded-full transition-colors"
+              >
+                <RotateCcw size={20} />
+              </button>
+              <button
+                onClick={() => onSkip(10)}
+                className="p-1 hover:bg-white/10 rounded-full transition-colors"
+              >
+                <RotateCw size={20} />
+              </button>
+            </div>
+
+            <VolumeControl
+              volume={volume}
+              isMuted={isMuted}
+              onVolumeChange={onVolumeChange}
+              onToggleMute={onToggleMute}
+            />
+
+            <div className="text-sm font-medium tabular-nums">
+              {currentTime} / {duration}
+            </div>
+          </div>
 
           <div className="flex items-center gap-2">
             <button
-              onClick={() => onSkip(-10)}
+              onClick={onToggleFullscreen}
               className="p-1 hover:bg-white/10 rounded-full transition-colors"
             >
-              <RotateCcw size={20} />
-            </button>
-            <button
-              onClick={() => onSkip(10)}
-              className="p-1 hover:bg-white/10 rounded-full transition-colors"
-            >
-              <RotateCw size={20} />
+              <Maximize size={20} />
             </button>
           </div>
-
-          <VolumeControl
-            volume={volume}
-            isMuted={isMuted}
-            onVolumeChange={onVolumeChange}
-            onToggleMute={onToggleMute}
-          />
-
-          <div className="text-sm font-medium tabular-nums">
-            {currentTime} / {duration}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={onToggleFullscreen}
-            className="p-1 hover:bg-white/10 rounded-full transition-colors"
-          >
-            <Maximize size={20} />
-          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
