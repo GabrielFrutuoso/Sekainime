@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 
 interface Episode {
+  title: any;
   number: string | number;
 }
 
 interface EpisodeListProps {
-  animeName: string;
   episodes: Episode[];
 }
 
-export const EpisodeList = ({ animeName, episodes }: EpisodeListProps) => {
+export const EpisodeList = ({ episodes }: EpisodeListProps) => {
   return (
     <div className="w-full flex flex-col  gap-4">
       <h3 className="text-xl font-semibold border-b border-white/10 pb-1">
@@ -19,7 +19,17 @@ export const EpisodeList = ({ animeName, episodes }: EpisodeListProps) => {
         {episodes.map((ep) => (
           <Link
             key={ep.number}
-            to={`/watch/${animeName.toLowerCase().replace(/\s+/g, "-")}/${ep.number}`}
+            to={`/watch/${ep.title
+              .toLowerCase()
+              .toLowerCase()
+              .replace("ª", "a")
+              .replace(/\s+/g, "-")
+              .replace("episódio", "")
+              .replace(" - filme", "")
+              .replace(`${ep.number}`, "")
+              .replace(/[^a-z0-9\s]/g, " ")
+              .trim()
+              .replace(/\s+/g, "-")}/${ep.number}`}
             className="flex items-center justify-center rounded-md py-2 px-1 text-sm transition-all bg-sidebar border border-sidebar-primary/30 text-zinc-300 hover:border-sidebar-primary hover:bg-sidebar-primary hover:text-white font-medium"
           >
             {ep.number}
