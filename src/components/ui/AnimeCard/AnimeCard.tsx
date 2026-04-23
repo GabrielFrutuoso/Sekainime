@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 export const AnimeCard = (anime: Anime) => {
   return (
     <Link
-      to={`/infos/${anime.name.toLowerCase().replace(/[^a-z0-9\s]/g, " ").trim().replace(/\s+/g, "-")}`}
+      to={`/infos/${anime.name
+        .toLowerCase()
+        .replace("ª", "a")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, "-")
+        .trim()}`}
       className="relative group flex flex-col w-full bg-card rounded-md overflow-hidden shadow-md"
     >
       <img
