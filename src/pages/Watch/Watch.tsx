@@ -2,20 +2,21 @@ import { VideoPlayer } from "./VideoPlayer/VideoPlayer";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
 import { Link } from "react-router-dom";
-import { useRef, useCallback } from "react";
+import { useRef } from "react";
+import { AnimeInfos, AnimeWatchPromise } from "@/types/anime.type";
 
 interface Episode {
-  title: any;
+  title: string;
   number: string | number;
 }
 
 export const Watch = () => {
   const { anime, episode } = useParams<{ anime: string; episode: string }>();
-  const { data: episodeData, isLoading } = useApi<any>(
+  const { data: episodeData, isLoading } = useApi<AnimeWatchPromise>(
     [`/animes/watch/${anime}/${episode}`],
     `/animes/watch/${anime}/${episode}`,
   );
-  const { data: animeData, isLoading: infosIsLoading } = useApi<any>(
+  const { data: animeData, isLoading: infosIsLoading } = useApi<AnimeInfos>(
     [`/animes/infos/${anime}`],
     `/animes/infos/${anime}`,
   );
@@ -34,24 +35,23 @@ export const Watch = () => {
     <div className="container flex flex-col bg-sidebar m-2 p-2 rounded-md">
       {(episodeData?.animesFire?.videoUrl && (
         <VideoPlayer
-          src={episodeData?.animesFire?.videoUrl || frameRef.current?.src}
-          fallbackSrc={episodeData.videoUrl}
-          poster={animeData?.poster}
-          title={animeData?.name}
-          episode={episode}
+          src={episodeData.animesFire.videoUrl || frameRef.current?.src || ""}
+          poster={animeData?.poster || ""}
+          title={animeData?.name || ""}
+          episode={episode || ""}
         />
       )) || (
-          <iframe
-            src={episodeData?.animesOnline?.videoUrl}
-            ref={frameRef}
-            className="w-full h-full"
-            frameBorder="0"
-            scrolling="no"
-            allowFullScreen
-            allow="fullscreen"
-          ></iframe>
+        <iframe
+          src={episodeData?.animesOnline?.videoUrl || ""}
+          ref={frameRef}
+          className="w-full h-full"
+          frameBorder="0"
+          scrolling="no"
+          allowFullScreen
+          allow="fullscreen"
+        ></iframe>
       )}
-      
+
       <div className="mt-1 flex flex-col gap-4">
         <div className="w-full flex flex-col gap-4">
           <h3 className="text-xl font-semibold border-b border-white/10 py-2">

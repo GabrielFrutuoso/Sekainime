@@ -26,7 +26,7 @@ export const Search = () => {
         </div>
       </div>
 
-      <AnimeCardList animes={data?.animes} isLoading={isLoading} />
+      <AnimeCardList animes={data?.animes ?? []} isLoading={isLoading} />
 
       <div className="p-1 flex bg-sidebar rounded-md">
         <PagePagination totalPages={data?.pagination?.lastPage ?? 1} />

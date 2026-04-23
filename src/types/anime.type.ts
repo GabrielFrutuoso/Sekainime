@@ -16,8 +16,15 @@ export type AnimeInfos = {
 };
 
 export type AnimePromise = {
-  data: {
-    animes: Anime[];
-    pagination: Pagination;
+  animes: Anime[];
+  pagination: Pagination;
+};
+
+export type AnimeWatchPromise = {
+  animesFire: {
+    videoUrl: string | null;
+  };
+  animesOnline: {
+    videoUrl: string | null;
   };
 };
