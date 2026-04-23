@@ -8,7 +8,9 @@ import { EpisodeList } from "./EpisodeList";
 export const Infos = () => {
   const { anime } = useParams<{ anime: string }>();
   const { data } = useApi<AnimeInfos>(
-    [`/animes/infos/${anime?.replace("-todos-os-episodios", "")}`],
+    [
+      `/animes/infos/${anime?.replace("-todos-os-episodios", "")}`,
+    ],
     `/animes/infos/${anime?.replace("-todos-os-episodios", "")}`,
   );
 
@@ -32,7 +34,7 @@ export const Infos = () => {
               japaneseName={data.japaneseName}
               synopsis={data.synopsis}
             />
-            <EpisodeList animeName={data.name} episodes={data.episodes} />
+            <EpisodeList episodes={data.episodes} />
           </div>
         </div>
       </div>
