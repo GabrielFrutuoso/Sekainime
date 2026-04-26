@@ -54,7 +54,7 @@ export const SearchInput = () => {
   }, []);
 
   return (
-    <div className="w-full flex-nowrap flex justify-center mb-1">
+    <div className="w-full flex-nowrap flex justify-center py-2">
       <div ref={containerRef} className="relative flex flex-col w-1/3 min-w-80">
         <div className="relative flex items-center">
           <Input
