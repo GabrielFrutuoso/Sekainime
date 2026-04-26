@@ -14,7 +14,8 @@
       {
         "title": "sekainime",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "decorations": false
       }
     ],
     "security": {
@@ -31,8 +32,6 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "resources": [
-      "server/server.exe"
-    ]
+    "resources": ["server/server.exe"]
   }
 }
