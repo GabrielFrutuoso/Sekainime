@@ -31,10 +31,10 @@ export function Home() {
   );
 
   return (
-    <div className="p-2 flex-1 flex flex-col justify-between overflow-hidden">
+    <div className="flex-1 flex flex-col justify-between overflow-hidden">
       <SearchInput />
       <AnimeCardList animes={data?.animes ?? []} isLoading={isLoading} />
-      <div className="p-1 flex bg-sidebar rounded-md">
+      <div className="py-1 flex bg-sidebar-accent rounded-md">
         <PagePagination totalPages={data?.pagination?.lastPage ?? 1} />
       </div>
     </div>

@@ -1,9 +1,10 @@
 import { VideoPlayer } from "./VideoPlayer/VideoPlayer";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { AnimeInfos, AnimeWatchPromise } from "@/types/anime.type";
+import { ChevronLeft } from "lucide-react";
 
 interface Episode {
   title: string;
@@ -12,6 +13,7 @@ interface Episode {
 
 export const Watch = () => {
   const { anime, episode } = useParams<{ anime: string; episode: string }>();
+  const navigate = useNavigate();
   const { data: episodeData, isLoading } = useApi<AnimeWatchPromise>(
     [`/animes/watch/${anime}/${episode}`],
     `/animes/watch/${anime}/${episode}`,
@@ -33,14 +35,21 @@ export const Watch = () => {
 
   return (
     <div className="container flex flex-col bg-sidebar m-2 p-2 rounded-md">
-      {(episodeData?.animesFire?.videoUrl && (
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-1 text-zinc-400 hover:text-white transition-colors mb-2 w-fit px-2 py-1 rounded-md hover:bg-white/5"
+      >
+        <ChevronLeft size={20} />
+        <span className="text-sm font-medium">Voltar</span>
+      </button>
+      {episodeData?.animesFire?.videoUrl ? (
         <VideoPlayer
           src={episodeData.animesFire.videoUrl || frameRef.current?.src || ""}
           poster={animeData?.poster || ""}
           title={animeData?.name || ""}
           episode={episode || ""}
         />
-      )) || (
+      ) : episodeData?.animesOnline?.videoUrl ? (
         <iframe
           src={episodeData?.animesOnline?.videoUrl || ""}
           ref={frameRef}
@@ -50,6 +59,11 @@ export const Watch = () => {
           allowFullScreen
           allow="fullscreen"
         ></iframe>
+      ) : (
+        <div className=" w-full aspect-video bg-white/5 rounded-xl flex items-center justify-center flex-col gap-6 text-center text-zinc-400">
+          <h1 className="text-9xl">:(</h1>
+          <p>Parece que esse episódio ou anime não está disponível!</p>
+        </div>
       )}
 
       <div className="mt-1 flex flex-col gap-4">

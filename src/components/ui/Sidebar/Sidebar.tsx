@@ -2,9 +2,9 @@ import { SidebarLink } from "./SidebarLink";
 
 export const Sidebar = () => {
   return (
-    <aside className="flex flex-col h-full min-h-screen p-2">
-      <div className="bg-sidebar flex-1 rounded-lg">
-        <ul>
+    <aside className="flex flex-col h-full shrink-0 overflow-y-auto">
+      <div className="bg-sidebar-accent flex-1">
+        <ul className="">
           <SidebarLink to="/top-animes" label="Top animes" />
           <SidebarLink to="/animes-atualizados" label="Animes atualizados" />
           <SidebarLink to="/lista-de-animes-dublados" label="Animes dublados" />
