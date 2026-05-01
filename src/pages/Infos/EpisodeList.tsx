@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface Episode {
@@ -11,6 +11,9 @@ interface EpisodeListProps {
 }
 
 export const EpisodeList = ({ episodes }: EpisodeListProps) => {
+  const { anime } = useParams<{ anime: string }>();
+  console.log(anime);
+
   return (
     <div className="w-full flex flex-col gap-4">
       <h3 className="text-xl font-semibold border-b border-white/10 pb-1">
@@ -21,8 +24,8 @@ export const EpisodeList = ({ episodes }: EpisodeListProps) => {
           {episodes.map((ep) => (
             <Link
               key={ep.number}
-              to={`/watch/${ep.title
-                .toLowerCase()
+              to={`/watch/${anime
+                ?.toLowerCase()
                 .toLowerCase()
                 .replace("ª", "a")
                 .replace(/\s+/g, "-")
