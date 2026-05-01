@@ -35,21 +35,21 @@ export const Watch = () => {
 
   return (
     <div className="container flex flex-col bg-sidebar m-2 p-2 rounded-md">
-            <button
+      <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-1 text-zinc-400 hover:text-white transition-colors mb-2 w-fit px-2 py-1 rounded-md hover:bg-white/5"
       >
         <ChevronLeft size={20} />
         <span className="text-sm font-medium">Voltar</span>
       </button>
-      {(episodeData?.animesFire?.videoUrl && (
+      {episodeData?.animesFire?.videoUrl ? (
         <VideoPlayer
           src={episodeData.animesFire.videoUrl || frameRef.current?.src || ""}
           poster={animeData?.poster || ""}
           title={animeData?.name || ""}
           episode={episode || ""}
         />
-      )) || (
+      ) : episodeData?.animesOnline?.videoUrl ? (
         <iframe
           src={episodeData?.animesOnline?.videoUrl || ""}
           ref={frameRef}
@@ -59,6 +59,11 @@ export const Watch = () => {
           allowFullScreen
           allow="fullscreen"
         ></iframe>
+      ) : (
+        <div className=" w-full aspect-video bg-white/5 rounded-xl flex items-center justify-center flex-col gap-6 text-center text-zinc-400">
+          <h1 className="text-9xl">:(</h1>
+          <p>Parece que esse episódio ou anime não está disponível!</p>
+        </div>
       )}
 
       <div className="mt-1 flex flex-col gap-4">
